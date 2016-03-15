@@ -83,7 +83,6 @@ public class FileChooserGUIframe extends javax.swing.JFrame {
             }
         });
         
-        if(FileChooser.showOpenDialog(cmpnt))
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
