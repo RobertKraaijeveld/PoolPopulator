@@ -92,9 +92,8 @@ public class MainGUIframe extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ChooseFileButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ChooseFileButtonMouseClicked
-        // Call file chooser menu
-        FileChooserGUIframe fileChooserGui = new FileChooserGUIframe();
-        fileChooserGui.setVisible(true);
+        FileChooserGUIframe fs = new FileChooserGUIframe();
+        fs.setVisible(true);
     }//GEN-LAST:event_ChooseFileButtonMouseClicked
 
     private void ChooseFileButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_ChooseFileButtonActionPerformed

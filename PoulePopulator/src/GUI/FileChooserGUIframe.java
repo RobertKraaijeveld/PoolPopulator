@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package GUI;
+import FileChoosing.FileUnpacker;
+import java.io.File;
 
 /**
  *
@@ -14,10 +16,33 @@ public class FileChooserGUIframe extends javax.swing.JFrame {
     /**
      * Creates new form FileChooserGUIframe
      */
-    public FileChooserGUIframe() {
+    public FileChooserGUIframe() 
+    {
         initComponents();
+        sendSelectedFileToFileUnpacker();
     }
-
+    
+    public void sendSelectedFileToFileUnpacker()
+    {
+        int returnVal = FileChooser.showOpenDialog(null);
+        System.out.println(returnVal);
+        
+        if (returnVal == FileChooser.APPROVE_OPTION) 
+        {
+            File file = FileChooser.getSelectedFile();
+            FileUnpacker fu = new FileUnpacker();
+            fu.setChosenFile(file);
+            
+            //This is where a real application would open the file.
+            System.out.println("Opening: " + file.getName());
+        } 
+        else
+        {
+            System.out.println("Open command cancelled by user.");
+        } 
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
