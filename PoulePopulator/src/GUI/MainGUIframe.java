@@ -4,18 +4,65 @@
  * and open the template in the editor.
  */
 package GUI;
+import FileChoosing.FileUnpacker;
+import java.awt.Component;
+import java.io.File;
+import java.util.ArrayList;
+import javax.swing.JTextField;
 
 /**
  *
  * @author robert
  */
 public class MainGUIframe extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form MainGUIframe
      */
     public MainGUIframe() {
         initComponents();
+        FileChooser.setVisible(false);
+    }
+    
+    private ArrayList<String> getGivenCsvRowNames()
+    {
+        ArrayList<String> returnList = new ArrayList<String>();
+        for (Component C : this.getComponents()) 
+        {
+            if (C instanceof JTextField) 
+            {
+                //Explicit cast is necessary, sincce C is of a superclass of Jtexfield
+                returnList.add(((JTextField) C).getText());
+            }
+        }
+        return returnList;
+    }
+    
+    private int showFileChooser()
+    {
+        FileChooser.setVisible(true);
+        int returnVal = FileChooser.showOpenDialog(null);
+        System.out.println(returnVal);
+        return returnVal;
+    }
+    
+    private void sendSelectedFileToFileUnpacker()
+    {
+        int returnVal = showFileChooser();
+        
+        if (returnVal == FileChooser.APPROVE_OPTION) 
+        {
+            File file = FileChooser.getSelectedFile();
+            FileUnpacker fileUnpacker = new FileUnpacker(file);
+            
+            System.out.println("Opening: " + file.getName());
+            fileUnpacker.writeFileContents(); 
+        } 
+        else
+        {
+            //Go back to main menu
+            System.out.println("Open command cancelled by user.");
+        } 
     }
 
     /**
@@ -25,81 +72,141 @@ public class MainGUIframe extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jFileChooser1 = new javax.swing.JFileChooser();
+        FileChooser = new javax.swing.JFileChooser();
+        FighterSkillLevel = new javax.swing.JPanel();
         ChooseFileText = new javax.swing.JLabel();
         ChooseFileButton = new javax.swing.JButton();
+        chooseRowNamesText = new javax.swing.JLabel();
+        FighterNameLabel = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        FighterSchoolLevel = new javax.swing.JLabel();
+        FighterSkillInput = new javax.swing.JTextField();
+        FighterNameInput = new javax.swing.JTextField();
+        FighterSchoolInput = new javax.swing.JTextField();
+
+        FileChooser.setDialogTitle("");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setName("EntryPanel"); // NOI18N
+        FighterSkillLevel.setName("EntryPanel"); // NOI18N
 
-        ChooseFileText.setText("Please upload a .CSV file containing you fighters' data.");
+        ChooseFileText.setText("Here you can upload a .CSV file containing you fighters' data.");
 
-        ChooseFileButton.setText("Choose a file");
-        ChooseFileButton.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
+        ChooseFileButton.setText("Upload");
+        ChooseFileButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 ChooseFileButtonMouseClicked(evt);
             }
         });
-        ChooseFileButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        ChooseFileButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ChooseFileButtonActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(ChooseFileText, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+        chooseRowNamesText.setText("Please specify which columns in the CSV file contain the following information:");
+
+        FighterNameLabel.setText("Fighter name:");
+
+        jLabel2.setText("Fighter skill level:");
+
+        FighterSchoolLevel.setText("Fighter school:");
+
+        FighterNameInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FighterNameInputActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout FighterSkillLevelLayout = new javax.swing.GroupLayout(FighterSkillLevel);
+        FighterSkillLevel.setLayout(FighterSkillLevelLayout);
+        FighterSkillLevelLayout.setHorizontalGroup(
+            FighterSkillLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(FighterSkillLevelLayout.createSequentialGroup()
+                .addGroup(FighterSkillLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(FighterSkillLevelLayout.createSequentialGroup()
+                        .addGap(54, 54, 54)
+                        .addGroup(FighterSkillLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(chooseRowNamesText, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
+                            .addGroup(FighterSkillLevelLayout.createSequentialGroup()
+                                .addGroup(FighterSkillLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(ChooseFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(FighterSkillLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, FighterSkillLevelLayout.createSequentialGroup()
+                                            .addComponent(FighterNameLabel)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(FighterNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, FighterSkillLevelLayout.createSequentialGroup()
+                                            .addGroup(FighterSkillLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(FighterSkillLevelLayout.createSequentialGroup()
+                                                    .addComponent(jLabel2)
+                                                    .addGap(18, 18, 18))
+                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, FighterSkillLevelLayout.createSequentialGroup()
+                                                    .addComponent(FighterSchoolLevel)
+                                                    .addGap(29, 29, 29)))
+                                            .addGroup(FighterSkillLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(FighterSchoolInput, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(FighterSkillInput, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(FighterSkillLevelLayout.createSequentialGroup()
+                        .addGap(81, 81, 81)
+                        .addComponent(ChooseFileText, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(121, 121, 121)
-                .addComponent(ChooseFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(85, 85, 85)
+        FighterSkillLevelLayout.setVerticalGroup(
+            FighterSkillLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(FighterSkillLevelLayout.createSequentialGroup()
+                .addGap(53, 53, 53)
                 .addComponent(ChooseFileText, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(chooseRowNamesText)
+                .addGap(18, 18, 18)
+                .addGroup(FighterSkillLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(FighterNameLabel)
+                    .addComponent(FighterNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(FighterSkillLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(FighterSkillInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
+                .addGroup(FighterSkillLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(FighterSchoolLevel)
+                    .addComponent(FighterSchoolInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(ChooseFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(139, Short.MAX_VALUE))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(FighterSkillLevel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(FighterSkillLevel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void ChooseFileButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ChooseFileButtonMouseClicked
-        FileChooserGUIframe fs = new FileChooserGUIframe();
-        fs.setVisible(true);
+        sendSelectedFileToFileUnpacker();
     }//GEN-LAST:event_ChooseFileButtonMouseClicked
 
     private void ChooseFileButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_ChooseFileButtonActionPerformed
     {//GEN-HEADEREND:event_ChooseFileButtonActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_ChooseFileButtonActionPerformed
+
+    private void FighterNameInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FighterNameInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_FighterNameInputActionPerformed
 
     /**
      * @param args the command line arguments
@@ -139,6 +246,15 @@ public class MainGUIframe extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ChooseFileButton;
     private javax.swing.JLabel ChooseFileText;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField FighterNameInput;
+    private javax.swing.JLabel FighterNameLabel;
+    private javax.swing.JTextField FighterSchoolInput;
+    private javax.swing.JLabel FighterSchoolLevel;
+    private javax.swing.JTextField FighterSkillInput;
+    private javax.swing.JPanel FighterSkillLevel;
+    private javax.swing.JFileChooser FileChooser;
+    private javax.swing.JLabel chooseRowNamesText;
+    private javax.swing.JFileChooser jFileChooser1;
+    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 }

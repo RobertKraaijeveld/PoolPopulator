@@ -4,45 +4,19 @@
  * and open the template in the editor.
  */
 package GUI;
-import FileChoosing.FileUnpacker;
-import java.io.File;
 
 /**
  *
- * @author robert
+ * @author Kraaijeveld
  */
-public class FileChooserGUIframe extends javax.swing.JFrame {
-
+public class FileContentsListerGUIframe extends javax.swing.JFrame {
     /**
-     * Creates new form FileChooserGUIframe
+     * Creates new form FileContentsLister
      */
-    public FileChooserGUIframe() 
-    {
+    public FileContentsListerGUIframe() {
         initComponents();
-        sendSelectedFileToFileUnpacker();
     }
-    
-    public void sendSelectedFileToFileUnpacker()
-    {
-        int returnVal = FileChooser.showOpenDialog(null);
-        System.out.println(returnVal);
-        
-        if (returnVal == FileChooser.APPROVE_OPTION) 
-        {
-            File file = FileChooser.getSelectedFile();
-            FileUnpacker fu = new FileUnpacker();
-            fu.setChosenFile(file);
-            
-            //This is where a real application would open the file.
-            System.out.println("Opening: " + file.getName());
-        } 
-        else
-        {
-            System.out.println("Open command cancelled by user.");
-        } 
-    }
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,33 +24,27 @@ public class FileChooserGUIframe extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
-
-        FileChooser = new javax.swing.JFileChooser();
+    private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setAlwaysOnTop(true);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(FileChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(FileChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGap(0, 300, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -91,26 +59,25 @@ public class FileChooserGUIframe extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FileChooserGUIframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FileContentsListerGUIframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FileChooserGUIframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FileContentsListerGUIframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FileChooserGUIframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FileContentsListerGUIframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FileChooserGUIframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FileContentsListerGUIframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FileChooserGUIframe().setVisible(true);
+                new FileContentsListerGUIframe().setVisible(true);
             }
         });
-        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JFileChooser FileChooser;
     // End of variables declaration//GEN-END:variables
 }
