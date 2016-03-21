@@ -4,11 +4,11 @@
  * and open the template in the editor.
  */
 package GUI;
-import FileChoosing.FileUnpacker;
+import FileChoosing.CsvFile;
 import java.awt.Component;
 import java.io.File;
 import java.util.ArrayList;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 /**
  *
@@ -24,20 +24,6 @@ public class MainGUIframe extends javax.swing.JFrame {
         FileChooser.setVisible(false);
     }
     
-    private ArrayList<String> getGivenCsvRowNames()
-    {
-        ArrayList<String> returnList = new ArrayList<String>();
-        for (Component C : this.getComponents()) 
-        {
-            if (C instanceof JTextField) 
-            {
-                //Explicit cast is necessary, sincce C is of a superclass of Jtexfield
-                returnList.add(((JTextField) C).getText());
-            }
-        }
-        return returnList;
-    }
-    
     private int showFileChooser()
     {
         FileChooser.setVisible(true);
@@ -46,24 +32,62 @@ public class MainGUIframe extends javax.swing.JFrame {
         return returnVal;
     }
     
-    private void sendSelectedFileToFileUnpacker()
+    private ArrayList<String> getGivenCsvRowNames()
+    {
+        ArrayList<String> returnList = new ArrayList<String>();
+        for (Component C : this.getComponents()) 
+        {
+            //
+            //
+            //
+            //
+            //FIX DIS
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            System.out.println("Found a C");
+            if (C instanceof JTextField) 
+            {
+                System.out.println(((JTextField) C).getText());
+                //Explicit cast is necessary, sincce C is of a superclass of Jtexfield
+                returnList.add(((JTextField) C).getText());
+            }
+        }
+        return returnList;
+    }
+    
+    private boolean areAllTextFieldsFilledIn()
+    {
+        ArrayList<String> textFieldContents = getGivenCsvRowNames();
+        
+        if(textFieldContents.size() == 3)
+            return true;
+        else
+            return false;
+    }
+     
+    private CsvFile createCsvFileInstance()
+    {
+        CsvFile givenCsvFile = new CsvFile();
+        return givenCsvFile;
+    }
+    
+    private void sendSelectedFileToCsvFileInstance(CsvFile csvFileInstance)
     {
         int returnVal = showFileChooser();
-        
         if (returnVal == FileChooser.APPROVE_OPTION) 
         {
             File file = FileChooser.getSelectedFile();
-            FileUnpacker fileUnpacker = new FileUnpacker(file);
-            
-            System.out.println("Opening: " + file.getName());
-            fileUnpacker.writeFileContents(); 
-        } 
-        else
-        {
-            //Go back to main menu
-            System.out.println("Open command cancelled by user.");
+            csvFileInstance.setSelectedFile(file);
         } 
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -196,7 +220,20 @@ public class MainGUIframe extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ChooseFileButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ChooseFileButtonMouseClicked
-        sendSelectedFileToFileUnpacker();
+       CsvFile csv = createCsvFileInstance();
+       
+       if(areAllTextFieldsFilledIn() == true)
+       {
+           sendSelectedFileToCsvFileInstance(csv);
+           ArrayList<String> givenCsvRowNames = getGivenCsvRowNames();
+           csv.setGivenHeaderColumnNames(givenCsvRowNames);
+           csv.printValuesForGivenColumnHeaders();
+       }   
+       else
+       {
+           JOptionPane.showMessageDialog(null, "Please fill in all the required fields.");
+       }
+        
     }//GEN-LAST:event_ChooseFileButtonMouseClicked
 
     private void ChooseFileButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_ChooseFileButtonActionPerformed
