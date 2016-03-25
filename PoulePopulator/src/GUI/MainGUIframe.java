@@ -35,30 +35,9 @@ public class MainGUIframe extends javax.swing.JFrame {
     private ArrayList<String> getGivenCsvRowNames()
     {
         ArrayList<String> returnList = new ArrayList<String>();
-        for (Component C : this.getComponents()) 
-        {
-            //
-            //
-            //
-            //
-            //FIX DIS
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            System.out.println("Found a C");
-            if (C instanceof JTextField) 
-            {
-                System.out.println(((JTextField) C).getText());
-                //Explicit cast is necessary, sincce C is of a superclass of Jtexfield
-                returnList.add(((JTextField) C).getText());
-            }
-        }
+        returnList.add(FighterNameInput.getText());
+        returnList.add(FighterSkillInput.getText());
+        returnList.add(FighterSchoolInput.getText());
         return returnList;
     }
     
