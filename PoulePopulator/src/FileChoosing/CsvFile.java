@@ -24,8 +24,6 @@ public class CsvFile
     //Only print the value if their position == 
     
     //What this class should do:
-    //- Take the given row names
-    //- Check if they actually exist in the header names
     //- If so, store their relative positions in a data structure
     //- And echo out (later we will store them) all values at those positions
     
@@ -41,12 +39,11 @@ public class CsvFile
         {
             if(doGivenHeaderColumnNamesExist() == true)
             {
-
+                JOptionPane.showMessageDialog(null, "The columns you specified were found in the given CSV file!");
             }
             else
             {
-                JOptionPane.showMessageDialog
-                (null, "The columns you specified were not found in the given CSV file.");
+                JOptionPane.showMessageDialog(null, "The columns you specified were not found in the given CSV file.");
             }
         }
         catch(Exception e)
@@ -88,7 +85,7 @@ public class CsvFile
             for(String s : headerColumn)
             {
                 //if S is contained within the givenheaders, proceed. Else, alert user.
-                if(!givenHeaderColumnNames.contains(s))
+                if(givenHeaderColumnNames.contains(s) == false)
                 {
                     return false;
                 }

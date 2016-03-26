@@ -35,20 +35,26 @@ public class MainGUIframe extends javax.swing.JFrame {
     private ArrayList<String> getGivenCsvRowNames()
     {
         ArrayList<String> returnList = new ArrayList<String>();
+        //ugly duplication, need to fix this
         returnList.add(FighterNameInput.getText());
         returnList.add(FighterSkillInput.getText());
         returnList.add(FighterSchoolInput.getText());
         return returnList;
     }
     
-    private boolean areAllTextFieldsFilledIn()
+    private boolean allTextFieldsAreFilledIn()
     {
         ArrayList<String> textFieldContents = getGivenCsvRowNames();
         
-        if(textFieldContents.size() == 3)
-            return true;
-        else
-            return false;
+        for(String textFieldValue : textFieldContents)
+        {
+            if(textFieldValue.equals(""))
+            {
+                JOptionPane.showMessageDialog(null, "Please fill in all the required fields.");
+                return false;
+            }
+        }
+        return true;
     }
      
     private CsvFile createCsvFileInstance()
@@ -57,14 +63,19 @@ public class MainGUIframe extends javax.swing.JFrame {
         return givenCsvFile;
     }
     
+    private boolean fileIsSelectedByUser(int fileChooserValue)
+    {
+        if(fileChooserValue == FileChooser.APPROVE_OPTION)
+            return true;
+        else
+            return false;
+    }
+    
     private void sendSelectedFileToCsvFileInstance(CsvFile csvFileInstance)
     {
         int returnVal = showFileChooser();
-        if (returnVal == FileChooser.APPROVE_OPTION) 
-        {
-            File file = FileChooser.getSelectedFile();
-            csvFileInstance.setSelectedFile(file);
-        } 
+        File file = FileChooser.getSelectedFile();
+        csvFileInstance.setSelectedFile(file);
     }
 
 
@@ -199,20 +210,19 @@ public class MainGUIframe extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ChooseFileButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ChooseFileButtonMouseClicked
-       CsvFile csv = createCsvFileInstance();
-       
-       if(areAllTextFieldsFilledIn() == true)
+       if(allTextFieldsAreFilledIn())
        {
-           sendSelectedFileToCsvFileInstance(csv);
-           ArrayList<String> givenCsvRowNames = getGivenCsvRowNames();
-           csv.setGivenHeaderColumnNames(givenCsvRowNames);
-           csv.printValuesForGivenColumnHeaders();
+           int fileChooserReturnValue = showFileChooser(); 
+           CsvFile csv = createCsvFileInstance();
+           
+           if(fileIsSelectedByUser(fileChooserReturnValue))
+           {
+                sendSelectedFileToCsvFileInstance(csv);
+                ArrayList<String> givenCsvRowNames = getGivenCsvRowNames();
+                csv.setGivenHeaderColumnNames(givenCsvRowNames);
+                csv.printValuesForGivenColumnHeaders();
+           }   
        }   
-       else
-       {
-           JOptionPane.showMessageDialog(null, "Please fill in all the required fields.");
-       }
-        
     }//GEN-LAST:event_ChooseFileButtonMouseClicked
 
     private void ChooseFileButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_ChooseFileButtonActionPerformed
