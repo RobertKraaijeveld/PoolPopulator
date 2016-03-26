@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package GUI;
-import FileChoosing.CsvFile;
+import FileChoosing.csvFileHandler;
 import java.awt.Component;
 import java.io.File;
 import java.util.ArrayList;
@@ -57,9 +57,9 @@ public class MainGUIframe extends javax.swing.JFrame {
         return true;
     }
      
-    private CsvFile createCsvFileInstance()
+    private csvFileHandler createCsvFileInstance()
     {
-        CsvFile givenCsvFile = new CsvFile();
+        csvFileHandler givenCsvFile = new csvFileHandler();
         return givenCsvFile;
     }
     
@@ -71,7 +71,7 @@ public class MainGUIframe extends javax.swing.JFrame {
             return false;
     }
     
-    private void sendSelectedFileToCsvFileInstance(CsvFile csvFileInstance)
+    private void sendSelectedFileToCsvFileInstance(csvFileHandler csvFileInstance)
     {
         int returnVal = showFileChooser();
         File file = FileChooser.getSelectedFile();
@@ -213,14 +213,14 @@ public class MainGUIframe extends javax.swing.JFrame {
        if(allTextFieldsAreFilledIn())
        {
            int fileChooserReturnValue = showFileChooser(); 
-           CsvFile csv = createCsvFileInstance();
+           csvFileHandler csv = createCsvFileInstance();
            
            if(fileIsSelectedByUser(fileChooserReturnValue))
            {
                 sendSelectedFileToCsvFileInstance(csv);
                 ArrayList<String> givenCsvRowNames = getGivenCsvRowNames();
                 csv.setGivenHeaderColumnNames(givenCsvRowNames);
-                csv.printValuesForGivenColumnHeaders();
+                csv.sendCsvFileToAlgorithm();
            }   
        }   
     }//GEN-LAST:event_ChooseFileButtonMouseClicked
