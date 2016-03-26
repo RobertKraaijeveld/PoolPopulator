@@ -35,24 +35,26 @@ import Algorithms.SortingAlgorithm;
  * If we find a value, for instance, 'Skill' that is present
  * in the givenRowNames list, we set that columns count-variable
  * to be the current value of the counter.
- */
+ * 
+ **/
 
 public class csvFileHandler 
 {
-    //Allow the user to specify the columns:
-    //Count each header column name and put them in an array
-    //Compare each of these to the given columns
     //Only print the value if their position % their appropriate headers' position == 0
     
     private File selectedFile;
     private ArrayList<String> givenHeaderColumnNames;
+    private int nameHeaderPosition;
+    private int skillHeaderPosition;
+    private int schoolHeaderPosition;
 
     public void sendCsvFileToAlgorithm()
     {
         try
         {
             if(givenHeaderColumnNamesExist()) {
-                SortingAlgorithm s = new SortingAlgorithm();
+                setHeaderColumnPositions();
+                SortingAlgorithm algorithm = new SortingAlgorithm();
             }
             else {
                 JOptionPane.showMessageDialog(null, "The columns you specified were not found in the given CSV file.");
@@ -74,7 +76,7 @@ public class csvFileHandler
         selectedFile = f;
     }
     
-    private void getHeaderColumnPositions() throws Exception
+    private void setHeaderColumnPositions() throws Exception
     {
         String pathToFile = selectedFile.getAbsolutePath();
         BufferedReader reader = null;
@@ -84,23 +86,30 @@ public class csvFileHandler
 
         int positionCounter = 0;
         
+        //These values represent what the name, skills and school columnns are called in the CSV file.
+        final String nameHeaderColumn = givenHeaderColumnNames.get(0);
+        final String skillHeaderColumn = givenHeaderColumnNames.get(1);
+        final String schoolHeaderColumn = givenHeaderColumnNames.get(2);
+        
         if((currentLine = reader.readLine()) != null)
         {
             String[] headerColumn = currentLine.split(delimiter);
-            Arrays.asList(headerColumn);
             
             for(String s : headerColumn)
             {
                 positionCounter++;
-                if(givenHeaderColumnNames.contains(s))
-                {
-                    //We know that this header is contained in the givenheaders,
-                    //but we dont know which header it is, so we dont know which
-                    //headerPosition variable deserves to get the positioncounter assigned to it
+
+                if(s.equals(nameHeaderColumn)) {
+                    nameHeaderPosition = positionCounter;
+                }   
+                else if(s.equals(skillHeaderColumn)) {
+                    skillHeaderPosition = positionCounter;
                 }
+                else {
+                    schoolHeaderPosition = positionCounter;
+                }         
             }
         }
-        return positionReturnList;
     }
 
     private boolean givenHeaderColumnNamesExist() throws Exception
@@ -135,9 +144,6 @@ public class csvFileHandler
     public class CsvFileMetaData
     {
         private File selectedFile;
-        private int nameHeaderPosition;
-        private int skillHeaderPosition;
-        private int schoolHeaderPosition;
         
         public CsvFileMetaData(File f, ArrayList<Integer> listOfHeaderPositions)
         {
