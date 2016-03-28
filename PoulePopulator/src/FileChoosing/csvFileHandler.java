@@ -1,18 +1,20 @@
 package FileChoosing;
 
+import GUI.MainGUIframe;
+import Algorithms.SortingAlgorithm;
+import GUI.AlgorithmParameterGUIframe;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
-import Algorithms.SortingAlgorithm;
+import java.awt.Frame;
+import java.awt.event.WindowEvent;
 import java.util.List;
 
 /**
- *
  * @author Kraaijeveld
- * 
  */
 
 public class csvFileHandler 
@@ -24,26 +26,10 @@ public class csvFileHandler
     private int skillHeaderPosition;
     private int schoolHeaderPosition;
 
-    public void sendCsvFileToAlgorithm()
-    {
-        try
-        {
-            if(givenHeaderColumnNamesExist()) 
-            {
-                ArrayList<Integer> headerPositions = createListOfHeaderColumnPositions();
-                CsvFileMetaData metadata = new CsvFileMetaData(selectedFile, headerPositions);
-                SortingAlgorithm algorithm = new SortingAlgorithm(metadata);
-            }
-            else 
-            {
-                JOptionPane.showMessageDialog(null, "The columns you specified were not found in the given CSV file.");
-            }
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }        
-    }
+    
+    /* 
+    * Setters 
+    */
    
     public void setGivenHeaderColumnNames(ArrayList<String> givenColumnNames)
     {
@@ -55,10 +41,60 @@ public class csvFileHandler
         selectedFile = f;
     }
     
+    /* 
+    * Senders to Algorithm-class
+    */
+    
+    public void sendCsvFileToAlgorithm()
+    {
+        try
+        {
+            if(givenHeaderColumnNamesExist()) 
+            {
+                createAlgorithmInputGUI();
+            }
+            else 
+            {
+                JOptionPane.showMessageDialog(null, "The columns you specified were not found in the given CSV file.");
+            }
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }        
+    }
+    
     private void createAlgorithmInputGUI()
     {
+        closeAllFrames();
+        try
+        {
+            ArrayList<Integer> headerPositions = createListOfHeaderColumnPositions();
+            CsvFileMetaData metadata = new CsvFileMetaData(selectedFile, headerPositions);
+            SortingAlgorithm algorithm = new SortingAlgorithm(metadata);
             
+            AlgorithmParameterGUIframe algorithmGUI = new AlgorithmParameterGUIframe();
+            algorithmGUI.setVisible(true);
+            algorithmGUI.setAlgorithm(algorithm);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
     }
+    
+    private void closeAllFrames()
+    {
+        Frame[] allFrames = Frame.getFrames();
+        for(int i = 0; i < allFrames.length; i++)
+        {
+            allFrames[i].setVisible(false);
+        }
+    }
+    
+    /* 
+    * Header-checking
+    */
     
     private ArrayList<Integer> createListOfHeaderColumnPositions() throws Exception
     {
@@ -136,6 +172,10 @@ public class csvFileHandler
         //In any other case, we return false
         return false;
     }
+    
+    /* 
+    * Meta-data (for use as argument to Algorithms-class)
+    */
     
     public class CsvFileMetaData
     {

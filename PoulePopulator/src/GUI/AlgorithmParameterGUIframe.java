@@ -1,15 +1,23 @@
 package GUI;
 
+import Algorithms.SortingAlgorithm;
+
 /**
  *
  * @author robert
  */
 public class AlgorithmParameterGUIframe extends javax.swing.JFrame
 {
-
+    private SortingAlgorithm sortingAlgorithm;
+    
     /**
      * Creates new form AlgorithmParameterGUIframe
      */
+    public void setAlgorithm(SortingAlgorithm algorithm)
+    {
+        sortingAlgorithm = algorithm;
+    }
+    
     public AlgorithmParameterGUIframe()
     {
         initComponents();
@@ -22,24 +30,42 @@ public class AlgorithmParameterGUIframe extends javax.swing.JFrame
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
+
+        backToMenuButton = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        backToMenuButton.setText("Main menu");
+        backToMenuButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backToMenuButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(backToMenuButton)
+                .addGap(0, 317, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(backToMenuButton)
+                .addGap(0, 277, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void backToMenuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backToMenuButtonActionPerformed
+        MainGUIframe mainGuiFrame = new MainGUIframe();
+        this.setVisible(false);
+        mainGuiFrame.setVisible(true);
+    }//GEN-LAST:event_backToMenuButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -91,5 +117,6 @@ public class AlgorithmParameterGUIframe extends javax.swing.JFrame
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton backToMenuButton;
     // End of variables declaration//GEN-END:variables
 }

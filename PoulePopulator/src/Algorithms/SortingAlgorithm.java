@@ -9,11 +9,11 @@ import FileChoosing.csvFileHandler.CsvFileMetaData;
 
 public class SortingAlgorithm 
 {
-    private CsvFileMetaData metadata;
+    private CsvFileMetaData csvFileMetaData;
     
     public SortingAlgorithm(CsvFileMetaData metaData)
     {
-        metadata = metaData;
+        csvFileMetaData = metaData;
         
     }
     

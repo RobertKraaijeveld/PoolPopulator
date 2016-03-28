@@ -222,7 +222,6 @@ public class MainGUIframe extends javax.swing.JFrame {
                 ArrayList<String> givenCsvRowNames = getGivenCsvRowNames();
                 csv.setGivenHeaderColumnNames(givenCsvRowNames);
                 csv.sendCsvFileToAlgorithm();
-                this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
            }   
        }   
     }//GEN-LAST:event_ChooseFileButtonMouseClicked
