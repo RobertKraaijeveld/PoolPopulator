@@ -12,36 +12,11 @@ import Algorithms.SortingAlgorithm;
  *
  * @author Kraaijeveld
  * 
- * 
- * Actual CSV:
- * Skill;Name;School;
- * 0     1    2
- * skillv;namev;schoolv;
- * skillv;namev;schoolv;
- * skillv;namev;schoolv;
- * skillv;namev;schoolv;
- * skillv;namev;schoolv;
- * 
- * ArrayList of given names
- * IE: 
- * NameColumn = X, SkillColumn = Y, SchoolColumn = Z
- * 0                  1                    2
- * 
- * 
- * We have to count where we first find the given column
- * when looping through the CSV. 
- * 
- * We loop through the csv, keeping track with a counter.
- * If we find a value, for instance, 'Skill' that is present
- * in the givenRowNames list, we set that columns count-variable
- * to be the current value of the counter.
- * 
- **/
+ */
 
 public class csvFileHandler 
 {
     //Only print the value if their position % their appropriate headers' position == 0
-    
     private File selectedFile;
     private ArrayList<String> givenHeaderColumnNames;
     private int nameHeaderPosition;
@@ -52,11 +27,14 @@ public class csvFileHandler
     {
         try
         {
-            if(givenHeaderColumnNamesExist()) {
-                setHeaderColumnPositions();
-                SortingAlgorithm algorithm = new SortingAlgorithm();
+            if(givenHeaderColumnNamesExist()) 
+            {
+                ArrayList<Integer> headerPositions = createListOfHeaderColumnPositions();
+                CsvFileMetaData metadata = new CsvFileMetaData(selectedFile, headerPositions);
+                SortingAlgorithm algorithm = new SortingAlgorithm(metadata);
             }
-            else {
+            else 
+            {
                 JOptionPane.showMessageDialog(null, "The columns you specified were not found in the given CSV file.");
             }
         }
@@ -76,7 +54,7 @@ public class csvFileHandler
         selectedFile = f;
     }
     
-    private void setHeaderColumnPositions() throws Exception
+    private ArrayList<Integer> createListOfHeaderColumnPositions() throws Exception
     {
         String pathToFile = selectedFile.getAbsolutePath();
         BufferedReader reader = null;
@@ -84,6 +62,7 @@ public class csvFileHandler
         String delimiter = ";";
         reader = new BufferedReader(new FileReader(pathToFile));
 
+        ArrayList<Integer> returnList = new ArrayList<Integer>();
         int positionCounter = 0;
         
         //These values represent what the name, skills and school columnns are called in the CSV file.
@@ -99,17 +78,27 @@ public class csvFileHandler
             {
                 positionCounter++;
 
-                if(s.equals(nameHeaderColumn)) {
+                if(s.equals(nameHeaderColumn)) 
+                {
                     nameHeaderPosition = positionCounter;
+                    returnList.add(nameHeaderPosition);
+                    System.out.println("Name header position: " + nameHeaderPosition);
                 }   
-                else if(s.equals(skillHeaderColumn)) {
+                else if(s.equals(skillHeaderColumn)) 
+                {
                     skillHeaderPosition = positionCounter;
+                    returnList.add(skillHeaderPosition);
+                    System.out.println("Skill header position: " + skillHeaderPosition);
                 }
-                else {
+                else 
+                {
                     schoolHeaderPosition = positionCounter;
+                    returnList.add(schoolHeaderPosition);
+                    System.out.println("School header position: " + schoolHeaderPosition);
                 }         
             }
         }
+        return returnList;
     }
 
     private boolean givenHeaderColumnNamesExist() throws Exception
@@ -126,8 +115,15 @@ public class csvFileHandler
             String[] headerColumn = currentLine.split(delimiter);
             Arrays.asList(headerColumn);
             
+            /*
             for(String s : headerColumn)
             {
+                
+                Gotta check the entire list,
+                Not just return false on first failure.
+               
+                
+                
                 //if S is contained within the givenheaders, proceed. Else, alert user.
                 if(givenHeaderColumnNames.contains(s) == false)
                 {
@@ -136,20 +132,39 @@ public class csvFileHandler
                 //If we came this far, we can safely return true.
                 return true;
             }
+            */
+            
+            for(String givenHeader : givenHeaderColumnNames)
+            {
+                headerColumn.
+            }
+                
         }
-        //In any other case
+        //In any other case, we return false
         return false;
     }
     
     public class CsvFileMetaData
     {
         private File selectedFile;
+        private ArrayList<Integer> listOfHeaderPositions;
         
-        public CsvFileMetaData(File f, ArrayList<Integer> listOfHeaderPositions)
+        public CsvFileMetaData(File f, ArrayList<Integer> list)
         {
             selectedFile = f;
-            //for(int headerPosition : listOfHeaderPositions)
+            listOfHeaderPositions = list;
         }
+        
+        public File getSelectedFile()
+        {
+            return selectedFile;
+        }
+        
+        public ArrayList<Integer> getListOfHeaderPositions()
+        {
+            return listOfHeaderPositions;
+        }
+        
     }
     
 }
