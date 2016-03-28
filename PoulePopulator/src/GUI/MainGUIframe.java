@@ -6,6 +6,7 @@
 package GUI;
 import FileChoosing.csvFileHandler;
 import java.awt.Component;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -36,9 +37,9 @@ public class MainGUIframe extends javax.swing.JFrame {
     {
         ArrayList<String> returnList = new ArrayList<String>();
         //ugly duplication, need to fix this
-        returnList.add(FighterNameInput.getText());
-        returnList.add(FighterSkillInput.getText());
-        returnList.add(FighterSchoolInput.getText());
+        returnList.add('"' + FighterNameInput.getText() + '"');
+        returnList.add('"' + FighterSkillInput.getText() + '"');
+        returnList.add('"' + FighterSchoolInput.getText() + '"');
         return returnList;
     }
     
@@ -221,6 +222,7 @@ public class MainGUIframe extends javax.swing.JFrame {
                 ArrayList<String> givenCsvRowNames = getGivenCsvRowNames();
                 csv.setGivenHeaderColumnNames(givenCsvRowNames);
                 csv.sendCsvFileToAlgorithm();
+                this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
            }   
        }   
     }//GEN-LAST:event_ChooseFileButtonMouseClicked

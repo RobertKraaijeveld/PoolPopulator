@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
 import Algorithms.SortingAlgorithm;
+import java.util.List;
 
 /**
  *
@@ -54,6 +55,11 @@ public class csvFileHandler
         selectedFile = f;
     }
     
+    private void createAlgorithmInputGUI()
+    {
+            
+    }
+    
     private ArrayList<Integer> createListOfHeaderColumnPositions() throws Exception
     {
         String pathToFile = selectedFile.getAbsolutePath();
@@ -73,8 +79,9 @@ public class csvFileHandler
         if((currentLine = reader.readLine()) != null)
         {
             String[] headerColumn = currentLine.split(delimiter);
+            List<String> headerColumnList = Arrays.asList(headerColumn);
             
-            for(String s : headerColumn)
+            for(String s : headerColumnList)
             {
                 positionCounter++;
 
@@ -90,7 +97,7 @@ public class csvFileHandler
                     returnList.add(skillHeaderPosition);
                     System.out.println("Skill header position: " + skillHeaderPosition);
                 }
-                else 
+                else if (s.equals(schoolHeaderColumn))
                 {
                     schoolHeaderPosition = positionCounter;
                     returnList.add(schoolHeaderPosition);
@@ -113,32 +120,18 @@ public class csvFileHandler
         if((currentLine = reader.readLine()) != null)
         {
             String[] headerColumn = currentLine.split(delimiter);
-            Arrays.asList(headerColumn);
-            
-            /*
-            for(String s : headerColumn)
+            List<String> headerColumnList = Arrays.asList(headerColumn);
+
+            //the given headers have to actually exist in the CSV file
+            for(String givenHeader : givenHeaderColumnNames)
             {
                 
-                Gotta check the entire list,
-                Not just return false on first failure.
-               
-                
-                
-                //if S is contained within the givenheaders, proceed. Else, alert user.
-                if(givenHeaderColumnNames.contains(s) == false)
+                if(headerColumnList.contains(givenHeader) == false)
                 {
                     return false;
                 }
-                //If we came this far, we can safely return true.
-                return true;
             }
-            */
-            
-            for(String givenHeader : givenHeaderColumnNames)
-            {
-                headerColumn.
-            }
-                
+            return true;
         }
         //In any other case, we return false
         return false;
