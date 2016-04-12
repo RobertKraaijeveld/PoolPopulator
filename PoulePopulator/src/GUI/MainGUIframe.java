@@ -10,6 +10,8 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -28,10 +30,13 @@ public class MainGUIframe extends javax.swing.JFrame {
     private int showFileChooser()
     {
         FileChooser.setVisible(true);
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(".CSV File", "csv", "csv");
+        FileChooser.setFileFilter(filter);
         int returnVal = FileChooser.showOpenDialog(null);
         System.out.println(returnVal);
         return returnVal;
     }
+    
     
     private ArrayList<String> getGivenCsvRowNames()
     {

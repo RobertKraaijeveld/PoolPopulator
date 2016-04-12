@@ -1,6 +1,10 @@
 package GUI;
 
 import Algorithms.SortingAlgorithm;
+import java.awt.BorderLayout;
+import java.util.Hashtable;
+import javax.swing.JLabel;
+import javax.swing.JSlider;
 
 /**
  *
@@ -18,9 +22,41 @@ public class AlgorithmParameterGUIframe extends javax.swing.JFrame
         sortingAlgorithm = algorithm;
     }
     
+    private void initiateSliders()
+    {
+        JSlider schoolLevelSlider = new JSlider();
+        JSlider skillLevelSlider = new JSlider();
+        
+        schoolLevelSlider.setBounds(10, 100, 180, 50);
+        skillLevelSlider.setBounds(10, 160, 180, 50);
+        
+        this.add(schoolLevelSlider);
+        this.add(skillLevelSlider);
+        
+        schoolLevelSlider.setVisible(true);
+        skillLevelSlider.setVisible(true);
+        
+        schoolLevelSlider.setPaintTicks(true);
+        skillLevelSlider.setPaintTicks(true);
+        
+        Hashtable labelTable = new Hashtable();
+        labelTable.put(new Integer(25), new JLabel("25%"));
+        labelTable.put(new Integer(50), new JLabel("50%"));
+        labelTable.put(new Integer(75), new JLabel("75%"));
+        
+        schoolLevelSlider.setPaintLabels(true);
+        skillLevelSlider.setPaintLabels(true);
+        schoolLevelSlider.setSnapToTicks(true);
+        skillLevelSlider.setSnapToTicks(true);
+        
+        schoolLevelSlider.setLabelTable(labelTable);
+        skillLevelSlider.setLabelTable(labelTable);
+    }
+    
     public AlgorithmParameterGUIframe()
     {
         initComponents();
+        initiateSliders();
     }
 
     /**
@@ -33,6 +69,7 @@ public class AlgorithmParameterGUIframe extends javax.swing.JFrame
     private void initComponents() {
 
         backToMenuButton = new javax.swing.JToggleButton();
+        poolSizeTextBox = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,12 +87,18 @@ public class AlgorithmParameterGUIframe extends javax.swing.JFrame
             .addGroup(layout.createSequentialGroup()
                 .addComponent(backToMenuButton)
                 .addGap(0, 317, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(74, 74, 74)
+                .addComponent(poolSizeTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(backToMenuButton)
-                .addGap(0, 277, Short.MAX_VALUE))
+                .addGap(111, 111, 111)
+                .addComponent(poolSizeTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 146, Short.MAX_VALUE))
         );
 
         pack();
@@ -118,5 +161,6 @@ public class AlgorithmParameterGUIframe extends javax.swing.JFrame
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton backToMenuButton;
+    private javax.swing.JTextField poolSizeTextBox;
     // End of variables declaration//GEN-END:variables
 }

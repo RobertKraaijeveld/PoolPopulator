@@ -19,7 +19,6 @@ import java.util.List;
 
 public class csvFileHandler 
 {
-    //Only print the value if their position % their appropriate headers' position == 0
     private File selectedFile;
     private ArrayList<String> givenHeaderColumnNames;
     private int nameHeaderPosition;
@@ -161,7 +160,6 @@ public class csvFileHandler
             //the given headers have to actually exist in the CSV file
             for(String givenHeader : givenHeaderColumnNames)
             {
-                
                 if(headerColumnList.contains(givenHeader) == false)
                 {
                     return false;
