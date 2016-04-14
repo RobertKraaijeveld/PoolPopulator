@@ -71,12 +71,13 @@ public class csvFileHandler
         try
         {
             ArrayList<Integer> headerPositions = createListOfHeaderColumnPositions();
-            CsvFileMetaData metadata = new CsvFileMetaData(selectedFile.getAbsoluteFile(), headerPositions);
+            CsvFileMetaData metadata = new CsvFileMetaData(selectedFile, headerPositions);
             SortingAlgorithm algorithm = new SortingAlgorithm(metadata);
             
             AlgorithmParameterGUIframe algorithmGUI = new AlgorithmParameterGUIframe();
             algorithmGUI.setVisible(true);
             algorithmGUI.setAlgorithm(algorithm);
+            algorithmGUI.setAmountOfFightersFound();
         }
         catch(Exception e)
         {
@@ -185,8 +186,8 @@ public class csvFileHandler
         public CsvFileMetaData(File file, ArrayList<Integer> list)
         {
             System.out.println(file.getAbsolutePath());
-            File f = file;
-            selectedFile = file;
+            SelectedFile = file;
+            listOfHeaderPositions = list;
         }
         
         public File getSelectedFile()

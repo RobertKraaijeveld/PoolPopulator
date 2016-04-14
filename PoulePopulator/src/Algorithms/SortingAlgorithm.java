@@ -24,7 +24,6 @@ public class SortingAlgorithm
         csvFileMetaData = metaData;
     }
     
-    
     public String getAmountOfFightersInCSV() 
     {
         String pathToFile = csvFileMetaData.getSelectedFile().getAbsolutePath();
@@ -42,7 +41,7 @@ public class SortingAlgorithm
             }
         }
         catch (Exception e){
-            System.out.println("Error occured: " + e);
+            e.printStackTrace();
             JOptionPane.showMessageDialog(null, "The file you specified is not found. Did you move it?");                
             return "error";
         }

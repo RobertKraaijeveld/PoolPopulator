@@ -22,7 +22,7 @@ public class AlgorithmParameterGUIframe extends javax.swing.JFrame
         sortingAlgorithm = algorithm;
     }
 
-    private void setAmountOfFightersFound()
+    public void setAmountOfFightersFound()
     {
         String amountOfFightersFound = sortingAlgorithm.getAmountOfFightersInCSV();
         fightersFoundText.setText(amountOfFightersFound);
@@ -31,7 +31,9 @@ public class AlgorithmParameterGUIframe extends javax.swing.JFrame
     public AlgorithmParameterGUIframe()
     {
         initComponents();
-        setAmountOfFightersFound();
+        //The setAlgorithm is only called until AFTER this(which is always first cuz its in the constructing) is done, 
+        //So sortingAlgorithm is not an object yet, just an uninitiated variable!
+        //setAmountOfFightersFound();
     }
 
     /**
