@@ -37,7 +37,9 @@ public class csvFileHandler
     
     public void setSelectedFile(File f)
     {
-        selectedFile = f;
+        System.out.println(f.getAbsolutePath());
+        File file = f;
+        selectedFile = file;
     }
     
     /* 
@@ -69,7 +71,7 @@ public class csvFileHandler
         try
         {
             ArrayList<Integer> headerPositions = createListOfHeaderColumnPositions();
-            CsvFileMetaData metadata = new CsvFileMetaData(selectedFile, headerPositions);
+            CsvFileMetaData metadata = new CsvFileMetaData(selectedFile.getAbsoluteFile(), headerPositions);
             SortingAlgorithm algorithm = new SortingAlgorithm(metadata);
             
             AlgorithmParameterGUIframe algorithmGUI = new AlgorithmParameterGUIframe();
@@ -177,18 +179,19 @@ public class csvFileHandler
     
     public class CsvFileMetaData
     {
-        private File selectedFile;
+        private File SelectedFile;
         private ArrayList<Integer> listOfHeaderPositions;
         
-        public CsvFileMetaData(File f, ArrayList<Integer> list)
+        public CsvFileMetaData(File file, ArrayList<Integer> list)
         {
-            selectedFile = f;
-            listOfHeaderPositions = list;
+            System.out.println(file.getAbsolutePath());
+            File f = file;
+            selectedFile = file;
         }
         
         public File getSelectedFile()
         {
-            return selectedFile;
+            return SelectedFile;
         }
         
         public ArrayList<Integer> getListOfHeaderPositions()

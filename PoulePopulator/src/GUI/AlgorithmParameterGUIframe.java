@@ -21,42 +21,17 @@ public class AlgorithmParameterGUIframe extends javax.swing.JFrame
     {
         sortingAlgorithm = algorithm;
     }
-    
-    private void initiateSliders()
+
+    private void setAmountOfFightersFound()
     {
-        JSlider schoolLevelSlider = new JSlider();
-        JSlider skillLevelSlider = new JSlider();
-        
-        schoolLevelSlider.setBounds(10, 100, 180, 50);
-        skillLevelSlider.setBounds(10, 160, 180, 50);
-        
-        this.add(schoolLevelSlider);
-        this.add(skillLevelSlider);
-        
-        schoolLevelSlider.setVisible(true);
-        skillLevelSlider.setVisible(true);
-        
-        schoolLevelSlider.setPaintTicks(true);
-        skillLevelSlider.setPaintTicks(true);
-        
-        Hashtable labelTable = new Hashtable();
-        labelTable.put(new Integer(25), new JLabel("25%"));
-        labelTable.put(new Integer(50), new JLabel("50%"));
-        labelTable.put(new Integer(75), new JLabel("75%"));
-        
-        schoolLevelSlider.setPaintLabels(true);
-        skillLevelSlider.setPaintLabels(true);
-        schoolLevelSlider.setSnapToTicks(true);
-        skillLevelSlider.setSnapToTicks(true);
-        
-        schoolLevelSlider.setLabelTable(labelTable);
-        skillLevelSlider.setLabelTable(labelTable);
+        String amountOfFightersFound = sortingAlgorithm.getAmountOfFightersInCSV();
+        fightersFoundText.setText(amountOfFightersFound);
     }
     
     public AlgorithmParameterGUIframe()
     {
         initComponents();
-        initiateSliders();
+        setAmountOfFightersFound();
     }
 
     /**
@@ -70,6 +45,12 @@ public class AlgorithmParameterGUIframe extends javax.swing.JFrame
 
         backToMenuButton = new javax.swing.JToggleButton();
         poolSizeTextBox = new javax.swing.JTextField();
+        pouleSizeText = new javax.swing.JLabel();
+        tier1FightersTextField = new javax.swing.JTextField();
+        tier1FightersPoolLabel = new javax.swing.JLabel();
+        schoolAmountLabel = new javax.swing.JLabel();
+        schoolTextField = new javax.swing.JTextField();
+        fightersFoundText = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,6 +61,26 @@ public class AlgorithmParameterGUIframe extends javax.swing.JFrame
             }
         });
 
+        pouleSizeText.setText("Fighters per pool:");
+
+        tier1FightersTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tier1FightersTextFieldActionPerformed(evt);
+            }
+        });
+
+        tier1FightersPoolLabel.setText("Max. tier 1 fighters per pool:");
+
+        schoolAmountLabel.setText("Max. fighters from same school per pool: ");
+
+        schoolTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                schoolTextFieldActionPerformed(evt);
+            }
+        });
+
+        fightersFoundText.setText("jLabel1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -88,17 +89,42 @@ public class AlgorithmParameterGUIframe extends javax.swing.JFrame
                 .addComponent(backToMenuButton)
                 .addGap(0, 317, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(74, 74, 74)
-                .addComponent(poolSizeTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pouleSizeText)
+                            .addComponent(tier1FightersPoolLabel))
+                        .addGap(65, 65, 65)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(tier1FightersTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(poolSizeTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(schoolAmountLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(schoolTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fightersFoundText))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(backToMenuButton)
-                .addGap(111, 111, 111)
-                .addComponent(poolSizeTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 146, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(fightersFoundText)
+                .addGap(9, 9, 9)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(poolSizeTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pouleSizeText))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tier1FightersTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tier1FightersPoolLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(schoolAmountLabel)
+                    .addComponent(schoolTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 172, Short.MAX_VALUE))
         );
 
         pack();
@@ -109,6 +135,14 @@ public class AlgorithmParameterGUIframe extends javax.swing.JFrame
         this.setVisible(false);
         mainGuiFrame.setVisible(true);
     }//GEN-LAST:event_backToMenuButtonActionPerformed
+
+    private void tier1FightersTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tier1FightersTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tier1FightersTextFieldActionPerformed
+
+    private void schoolTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_schoolTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_schoolTextFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -161,6 +195,12 @@ public class AlgorithmParameterGUIframe extends javax.swing.JFrame
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton backToMenuButton;
+    private javax.swing.JLabel fightersFoundText;
     private javax.swing.JTextField poolSizeTextBox;
+    private javax.swing.JLabel pouleSizeText;
+    private javax.swing.JLabel schoolAmountLabel;
+    private javax.swing.JTextField schoolTextField;
+    private javax.swing.JLabel tier1FightersPoolLabel;
+    private javax.swing.JTextField tier1FightersTextField;
     // End of variables declaration//GEN-END:variables
 }
