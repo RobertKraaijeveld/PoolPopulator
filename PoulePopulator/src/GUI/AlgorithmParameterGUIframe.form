@@ -29,24 +29,24 @@
           </Group>
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="pouleSizeText" min="-2" max="-2" attributes="0"/>
-                          <Component id="tier1FightersPoolLabel" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="tier1FightersTextField" min="-2" pref="26" max="-2" attributes="0"/>
-                          <Component id="poolSizeTextBox" min="-2" pref="26" max="-2" attributes="0"/>
-                      </Group>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="tier1FightersPoolLabel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="eliteSizeTextField" min="-2" pref="32" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="pouleSizeText" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="poolSizeTextField" min="-2" pref="32" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="schoolAmountLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="schoolTextField" min="-2" pref="25" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="schoolMatesTextField" min="-2" pref="32" max="-2" attributes="0"/>
                   </Group>
                   <Component id="fightersFoundText" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="runButton" alignment="0" min="-2" pref="254" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -60,20 +60,22 @@
               <Component id="fightersFoundText" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="poolSizeTextBox" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="pouleSizeText" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="poolSizeTextField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="tier1FightersTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="tier1FightersPoolLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="eliteSizeTextField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="schoolAmountLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="schoolTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="schoolMatesTextField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="0" pref="172" max="32767" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="runButton" min="-2" pref="84" max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="77" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -87,17 +89,10 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="backToMenuButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="poolSizeTextBox">
-    </Component>
     <Component class="javax.swing.JLabel" name="pouleSizeText">
       <Properties>
         <Property name="text" type="java.lang.String" value="Fighters per pool:"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="tier1FightersTextField">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tier1FightersTextFieldActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="tier1FightersPoolLabel">
       <Properties>
@@ -109,15 +104,24 @@
         <Property name="text" type="java.lang.String" value="Max. fighters from same school per pool: "/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="schoolTextField">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="schoolTextFieldActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JLabel" name="fightersFoundText">
       <Properties>
         <Property name="text" type="java.lang.String" value="jLabel1"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="runButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Run the algorithm!"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="runButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="poolSizeTextField">
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="eliteSizeTextField">
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="schoolMatesTextField">
     </Component>
   </SubComponents>
 </Form>

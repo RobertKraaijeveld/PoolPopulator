@@ -3,12 +3,7 @@ package Algorithms;
 
 import FileChoosing.csvFileHandler.CsvFileMetaData;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,50 +13,59 @@ import javax.swing.JOptionPane;
 public class SortingAlgorithm 
 {
     private CsvFileMetaData csvFileMetaData;
+    private int totalFightersAmount;
+    private int fightersPerPool;
+    private int eliteFightersPerPool;
+    private int schoolMatesPerPool;
     
     public SortingAlgorithm(CsvFileMetaData metaData)
     {
         csvFileMetaData = metaData;
+        totalFightersAmount = metaData.getAmountOfFightersInCSV();
+    }  
+    
+    public void setAlgorithmParameters(int fightersProPool, int elitesPerPool, int schoolMates)
+    {
+        fightersPerPool = fightersProPool;
+        eliteFightersPerPool= elitesPerPool;
+        schoolMatesPerPool = schoolMates;
     }
     
-    public String getAmountOfFightersInCSV() 
+    public int getTotalFightersAmount()
     {
-        String pathToFile = csvFileMetaData.getSelectedFile().getAbsolutePath();
-        System.out.println(pathToFile);
-        BufferedReader reader = null;
-        String currentLine = null;
-        String delimiter = ";";
-        int Counter = 0;
-        
-        try {
-            reader = new BufferedReader(new FileReader(pathToFile));
-            while ((currentLine = reader.readLine()) != null) 
-            {
-                Counter++;
-            }
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "The file you specified is not found. Did you move it?");                
-            return "error";
-        }
-        
-        String returnText = "Amount of fighters found: " + Counter;
-        return returnText;
+        return totalFightersAmount;
     }
     
-    private void categorizeFighters()
+    public void runAlgorithm()
     {
-        
-    }
-    
-    public class FighterCategory
-    {
-        public FighterCategory()
+        if(areParametersCorrect() == true)
         {
-            
-        }        
+            int amountOfPools = determineAmountOfPools();
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Your parameters are incorrect. "
+            + "Make sure you have no more fighters per pool than your total amount of fighters.");
+        }
     }
     
+    private boolean areParametersCorrect()
+    {
+        if(fightersPerPool > totalFightersAmount ||
+        eliteFightersPerPool > fightersPerPool || 
+        schoolMatesPerPool > fightersPerPool)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }   
     
+    private int determineAmountOfPools()
+    {
+        JOptionPane.showMessageDialog(null, Math.floor(totalFightersAmount / fightersPerPool));
+        return (int) Math.ceil(totalFightersAmount / fightersPerPool);
+    }
 }

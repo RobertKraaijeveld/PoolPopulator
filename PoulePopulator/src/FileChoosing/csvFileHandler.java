@@ -78,6 +78,7 @@ public class csvFileHandler
             algorithmGUI.setVisible(true);
             algorithmGUI.setAlgorithm(algorithm);
             algorithmGUI.setAmountOfFightersFound();
+
         }
         catch(Exception e)
         {
@@ -198,6 +199,34 @@ public class csvFileHandler
         public ArrayList<Integer> getListOfHeaderPositions()
         {
             return listOfHeaderPositions;
+        }
+        
+        public int getAmountOfFightersInCSV() 
+        {
+            String pathToFile = SelectedFile.getAbsolutePath();
+            System.out.println(pathToFile);
+            BufferedReader reader = null;
+            String currentLine = null;
+            String delimiter = ";";
+            int Counter = 0;
+
+            try 
+            {
+                reader = new BufferedReader(new FileReader(pathToFile));
+                while ((currentLine = reader.readLine()) != null) 
+                {
+                    Counter++;
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "The file you specified was not found. Did you move it?");                
+                return 0;
+            }
+            //We do not count the header row.
+            Counter--;
+            return Counter;
         }
         
     }
