@@ -2,6 +2,7 @@ package GUI;
 
 import Algorithms.SortingAlgorithm;
 import java.awt.Component;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -35,28 +36,22 @@ public class AlgorithmParameterGUIframe extends javax.swing.JFrame
     
     private boolean areParametersFilledIn()
     {
-        /*
-        FIX THIS
+        ArrayList<JTextField> alltextFields = new ArrayList<JTextField>()
+        {{ add(eliteSizeTextField); add(poolSizeTextField); add(schoolMatesTextField); }};
         
-        for(Component c : this.getRootPane().getComponents())
+        for(JTextField j : alltextFields)
         {
-            System.out.println("Got a component");
-            if(c instanceof JTextField)
+            if(j.getText() == null || j.getText().equals("") || !j.getText().matches("[0-10]+"))
             {
-                System.out.println("Got a textfield");
-                //CLEAN THIS Up, RESTRICT TO INT ONLY
-                if(((JTextField) c).getText() == null || ((JTextField) c).getText().isEmpty() || ((JTextField) c).getText().matches("0-10"))
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
+                System.out.println("errawr");
+                return false;
             }
+            else
+            {
+                return true;
+            }  
         }
-        */
-        return true;
+        return false;
     }
 
     /**
@@ -75,9 +70,9 @@ public class AlgorithmParameterGUIframe extends javax.swing.JFrame
         schoolAmountLabel = new javax.swing.JLabel();
         fightersFoundText = new javax.swing.JLabel();
         runButton = new javax.swing.JButton();
-        poolSizeTextField = new javax.swing.JFormattedTextField();
-        eliteSizeTextField = new javax.swing.JFormattedTextField();
-        schoolMatesTextField = new javax.swing.JFormattedTextField();
+        poolSizeTextField = new javax.swing.JTextField();
+        eliteSizeTextField = new javax.swing.JTextField();
+        schoolMatesTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -112,22 +107,23 @@ public class AlgorithmParameterGUIframe extends javax.swing.JFrame
                 .addGap(0, 317, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(tier1FightersPoolLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(eliteSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(pouleSizeText)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pouleSizeText)
+                            .addComponent(tier1FightersPoolLabel)
+                            .addComponent(schoolAmountLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(poolSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(poolSizeTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+                            .addComponent(eliteSizeTextField)
+                            .addComponent(schoolMatesTextField))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(schoolAmountLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(schoolMatesTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(fightersFoundText)
-                    .addComponent(runButton, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(fightersFoundText, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(runButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,8 +156,7 @@ public class AlgorithmParameterGUIframe extends javax.swing.JFrame
         this.setVisible(false);
         mainGuiFrame.setVisible(true);
     }//GEN-LAST:event_backToMenuButtonActionPerformed
-
-    
+   
     private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runButtonActionPerformed
         if(areParametersFilledIn() == true)
         {
@@ -226,15 +221,16 @@ public class AlgorithmParameterGUIframe extends javax.swing.JFrame
         });
     }
 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton backToMenuButton;
-    private javax.swing.JFormattedTextField eliteSizeTextField;
+    private javax.swing.JTextField eliteSizeTextField;
     private javax.swing.JLabel fightersFoundText;
-    private javax.swing.JFormattedTextField poolSizeTextField;
+    private javax.swing.JTextField poolSizeTextField;
     private javax.swing.JLabel pouleSizeText;
     private javax.swing.JButton runButton;
     private javax.swing.JLabel schoolAmountLabel;
-    private javax.swing.JFormattedTextField schoolMatesTextField;
+    private javax.swing.JTextField schoolMatesTextField;
     private javax.swing.JLabel tier1FightersPoolLabel;
     // End of variables declaration//GEN-END:variables
 }

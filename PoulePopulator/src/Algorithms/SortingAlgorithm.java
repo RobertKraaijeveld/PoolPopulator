@@ -2,14 +2,12 @@
 package Algorithms;
 
 import FileChoosing.csvFileHandler.CsvFileMetaData;
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
  * @author Kraaijeveld
  */
-
 public class SortingAlgorithm 
 {
     private CsvFileMetaData csvFileMetaData;
@@ -41,6 +39,7 @@ public class SortingAlgorithm
         if(areParametersCorrect() == true)
         {
             int amountOfPools = determineAmountOfPools();
+            ArrayList<Pool> poolsToBeFilled = createRequiredPools(amountOfPools);
         }
         else
         {
@@ -65,7 +64,19 @@ public class SortingAlgorithm
     
     private int determineAmountOfPools()
     {
-        JOptionPane.showMessageDialog(null, Math.floor(totalFightersAmount / fightersPerPool));
-        return (int) Math.ceil(totalFightersAmount / fightersPerPool);
+        System.out.println("We need " + Math.floor(totalFightersAmount / fightersPerPool) + " pools.");
+        return (int) Math.floor(totalFightersAmount / fightersPerPool);
+    }
+    
+    private ArrayList<Pool> createRequiredPools(int amount)
+    {
+        ArrayList<Pool> returnList = new ArrayList<Pool>();
+        
+        for(int i = 0; i < amount; i++)
+        {
+            Pool newPool = new Pool(this.fightersPerPool, 0,0);
+            returnList.add(newPool);
+        }
+        return returnList;
     }
 }

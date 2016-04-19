@@ -1,5 +1,6 @@
 package FileChoosing;
 
+import Algorithms.Fighter;
 import GUI.MainGUIframe;
 import Algorithms.SortingAlgorithm;
 import GUI.AlgorithmParameterGUIframe;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
 import java.awt.Frame;
-import java.awt.event.WindowEvent;
+
 import java.util.List;
 
 /**
@@ -108,7 +109,9 @@ public class csvFileHandler
         reader = new BufferedReader(new FileReader(pathToFile));
 
         ArrayList<Integer> returnList = new ArrayList<Integer>();
-        int positionCounter = 0;
+        
+        //Array indexes start at 0, so our first find must be 0.
+        int positionCounter = -1;
         
         //These values represent what the name, skills and school columnns are called in the CSV file.
         final String nameHeaderColumn = givenHeaderColumnNames.get(0);
@@ -171,7 +174,6 @@ public class csvFileHandler
             }
             return true;
         }
-        //In any other case, we return false
         return false;
     }
     
@@ -183,22 +185,18 @@ public class csvFileHandler
     {
         private File SelectedFile;
         private ArrayList<Integer> listOfHeaderPositions;
+        private ArrayList<Fighter> allFightersInCsv = new ArrayList<Fighter>();
         
         public CsvFileMetaData(File file, ArrayList<Integer> list)
         {
-            System.out.println(file.getAbsolutePath());
             SelectedFile = file;
             listOfHeaderPositions = list;
+            allFightersInCsv = constructListOfFighters();
         }
         
         public File getSelectedFile()
         {
             return SelectedFile;
-        }
-        
-        public ArrayList<Integer> getListOfHeaderPositions()
-        {
-            return listOfHeaderPositions;
         }
         
         public int getAmountOfFightersInCSV() 
@@ -229,6 +227,80 @@ public class csvFileHandler
             return Counter;
         }
         
+        private ArrayList<Integer> getListOfHeaderPositions()
+        {
+            return listOfHeaderPositions;
+        }
+        
+        /*
+        
+        IMPORTANT DESIGN CHOICE
+        
+        WE USE THE ARRAYLIST OF INTEGERS ONLY HERE.
+        WE CREATE A LIST OF FIGHTER OBJECTS, HIDING THE CSV IMPLEMENTATION 
+        BEHIND THE FIGHTER ABSTRACTION.
+
+        */
+        
+        private ArrayList<Fighter> constructListOfFighters()
+        {
+            String pathToFile = SelectedFile.getAbsolutePath();
+            BufferedReader reader = null;
+            String currentLine = null;
+            String delimiter = ";";
+            System.out.println("Called constructlist");
+            int Counter = 0;
+            
+            try 
+            {
+                reader = new BufferedReader(new FileReader(pathToFile));
+                while ((currentLine = reader.readLine()) != null) 
+                {
+                    //The first line contains only headers, so we skip it.
+                    if(Counter != 0)
+                    {
+                        String[] currentLineArray = currentLine.split(delimiter);
+                        Fighter x = createNewFighterFromCSVline(currentLineArray);
+                        allFightersInCsv.add(x);
+                    }
+                    Counter++;
+                }
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error: Please make sure your CSV file is correct, "
+                + "and that the skills column contains only numbers.");                
+            }
+            return allFightersInCsv;
+        }
+        
+        private Fighter createNewFighterFromCSVline(String[] csvLineArray)
+        {
+            /*
+            listOfHeaderPositions contains which positions (IE, after the 1st delimiter)       
+            of the given csv files' line contain the information we want, (For instance, a fighters name)
+            So we look there to get the values for a new Fighter object.
+            */ 
+
+            String name = csvLineArray[this.listOfHeaderPositions.get(0)];
+            name = name.replace("\"", "");
+            
+            String school = csvLineArray[this.listOfHeaderPositions.get(1)];
+            school = school.replace("\"", "");
+            
+            String skillString = csvLineArray[this.listOfHeaderPositions.get(2)];
+            skillString = skillString.replace("\"", "");
+            int skill = Integer.parseInt(skillString);
+            
+            Fighter newFighter = new Fighter(skill, school, name);
+            
+            System.out.println("Added fighter " + newFighter.getFighterName()
+            + " from " + newFighter.getSchoolName() 
+            + " skillLevel " + newFighter.getSkillLevel());
+            
+            return newFighter;
+        }
     }
     
 }
