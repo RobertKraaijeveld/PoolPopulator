@@ -186,6 +186,8 @@ public class csvFileHandler
         private File SelectedFile;
         private ArrayList<Integer> listOfHeaderPositions;
         private ArrayList<Fighter> allFightersInCsv = new ArrayList<Fighter>();
+
+        
         
         public CsvFileMetaData(File file, ArrayList<Integer> list)
         {
@@ -196,7 +198,12 @@ public class csvFileHandler
         
         public File getSelectedFile()
         {
-            return SelectedFile;
+            return this.SelectedFile;
+        }
+        
+        public ArrayList<Fighter> getAllFightersInCsv() 
+        {
+            return this.allFightersInCsv;
         }
         
         public int getAmountOfFightersInCSV() 
@@ -231,16 +238,6 @@ public class csvFileHandler
         {
             return listOfHeaderPositions;
         }
-        
-        /*
-        
-        IMPORTANT DESIGN CHOICE
-        
-        WE USE THE ARRAYLIST OF INTEGERS ONLY HERE.
-        WE CREATE A LIST OF FIGHTER OBJECTS, HIDING THE CSV IMPLEMENTATION 
-        BEHIND THE FIGHTER ABSTRACTION.
-
-        */
         
         private ArrayList<Fighter> constructListOfFighters()
         {
