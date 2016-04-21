@@ -40,10 +40,8 @@ public class SortingAlgorithm
         if(areParametersCorrect() == true)
         {
             int amountOfPools = determineAmountOfPools();
-            ArrayList<Pool> poolsToBeFilled = createRequiredPools(amountOfPools);
-            
-            
-            
+            ArrayList<Pool> poolsToBeFilled = createRequiredPools(amountOfPools); 
+            fillPools(poolsToBeFilled);
         }
         else
         {
@@ -52,28 +50,48 @@ public class SortingAlgorithm
         }
     }
     
-    private void recursivelyFillPools(ArrayList<Pool> emptyPools)
+    //NOTE: The danger in this is that it might go on forever.
+    //TODO: Add pool and fighter size checks.
+    //TODO: Cover other cases, such as elites only.
+    private void fillPools(ArrayList<Pool> emptyPools)
     {
         ArrayList<Pool> filledPools = new ArrayList<Pool>();
         
-        Fighter randomFighter = drawRandomFighter();
+        Fighter randomFighter = drawRandomFighter(this.csvFileMetaData.getAllFightersInCsv());
         Pool randomPool = drawRandomPool(emptyPools);
-        
-        
-        //if chosen random pool is not full, randomly fill it (non-recursive). 
-        //else, discard it from the empty list and add it to the filledlist.
-        
-        
+
         if(randomPool.isPoolFull() == false)
         {
-            
+            filledPools.add(randomPool);
+            emptyPools.remove(randomPool);
+            fillPools(emptyPools);
         }
         else
         {
-            
+           try
+           {
+               randomPool.addFighterToPool(randomFighter);
+               fillPools(emptyPools);
+           }
+           catch(Exception e)
+           {
+               fillPools(emptyPools);        
+           }
         }
-            
-            
+        loopThroughFilledPools(filledPools);
+    }
+    
+    //TEMP: FOR DEBUGGING ONLY
+    private void loopThroughFilledPools(ArrayList<Pool> filledPools)
+    {
+        for(Pool currentPool : filledPools)
+        {
+            System.out.println("new pool");
+            for(Fighter fighterInThisPool : currentPool.fightersInThisPool)
+            {
+                System.out.println(fighterInThisPool.getFighterName());
+            }
+        }
     }
     
     private int determineAmountOfPools()
@@ -89,7 +107,7 @@ public class SortingAlgorithm
         
         for(int i = 0; i < amount; i++)
         {
-            Pool newPool = new Pool(this.fightersPerPool, 0,0);
+            Pool newPool = new Pool(i, this.fightersPerPool, 0,0);
             returnList.add(newPool);
         }
         return returnList;
@@ -98,19 +116,19 @@ public class SortingAlgorithm
     private Pool drawRandomPool(ArrayList<Pool> poolList)
     {
         Random r = new Random();
+        
         int randomNumber = r.nextInt(poolList.size());
         
         Pool randomPool = poolList.get(randomNumber);
         return randomPool;
     }
     
-    private Fighter drawRandomFighter()
+    private Fighter drawRandomFighter(ArrayList<Fighter> fighterList)
     {
         Random r = new Random();
-        int randomNumber = r.nextInt(this.totalFightersAmount);
+        int randomNumber = r.nextInt(fighterList.size());
         
-        Fighter randomFighter = this.csvFileMetaData.getAllFightersInCsv().get(randomNumber);
-        this.csvFileMetaData.getAllFightersInCsv().remove(randomFighter);
+        Fighter randomFighter = fighterList.get(randomNumber);
         
         return randomFighter;
     }

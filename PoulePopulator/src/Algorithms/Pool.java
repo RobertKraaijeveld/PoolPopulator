@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 public class Pool 
 {
+    int poolNumber;
     int currentSize = 0;
     final int maximumSize;
     int amountOfEliteFightersInThisPool = 0;
@@ -22,7 +23,8 @@ public class Pool
     ArrayList<Fighter> fightersInThisPool = new ArrayList<Fighter>();
 
     
-    public Pool(int maximumSize, int maxAmountOfEliteFighters, int maxAmountOfSchoolMates) {
+    public Pool(int poolNumber, int maximumSize, int maxAmountOfEliteFighters, int maxAmountOfSchoolMates) {
+        this.poolNumber = poolNumber;
         this.maximumSize = maximumSize;
         this.maxEliteFighters = maxAmountOfEliteFighters;
         this.maxSchoolMates = maxAmountOfSchoolMates;
@@ -70,16 +72,36 @@ public class Pool
         {
             this.fightersInThisPool.add(fighterToBeAdded);
             this.currentSize++;
-            
-            //create schoolmate check method
-            //this.maxSchoolMates;
+            this.amountOfSchoolMatesInThisPool = calculateTotalAmountOfSchoolMates();    
             
             if(fighterToBeAdded.isFighterElite() == true)
-            {
                 this.amountOfEliteFightersInThisPool++;
-            }
-                
         }
+    }
+    
+    private int calculateTotalAmountOfSchoolMates()
+    {
+        ArrayList<Fighter> fightersToCrossReference = this.fightersInThisPool;
+        int schoolMatesCounter = 0;
+        
+        for(Fighter f : this.fightersInThisPool)
+        {
+            for(Fighter f2 : fightersToCrossReference)
+            {
+                /*
+                We also check wether the two names are equal: If they are, the 2 fighters
+                Are the same person and the schoolMatesCounter shouldnt be incremented; 
+                a fighter cannot be his/her own schoolmate.
+                */
+                
+                if(f.getSchoolName().equals(f2.getSchoolName()) 
+                && f.getFighterName().equals(f2.getFighterName()) == false)
+                {
+                    schoolMatesCounter++;
+                }
+            }
+        }
+        return schoolMatesCounter;
     }
     
     public class exceededPoolEliteLimitException extends Exception {}

@@ -38,7 +38,6 @@ public class Fighter
     {
         //Should we make this customizable?
         //In any case, we should inform our users
-        //And check for validity of skill; name and school can be pretty much anything, this can only be an int
         if(this.skillLevel == 1)
             return true;
         else
