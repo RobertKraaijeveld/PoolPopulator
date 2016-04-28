@@ -12,10 +12,12 @@ import javax.swing.JOptionPane;
 public class SortingAlgorithm 
 {
     private CsvFileMetaData csvFileMetaData;
+    private ArrayList<Pool> emptyPools = new ArrayList<Pool>();
+    private ArrayList<Pool> filledPools = new ArrayList<Pool>();
     private int totalFightersAmount;
-    private int fightersPerPool;
-    private int eliteFightersPerPool;
-    private int schoolMatesPerPool;
+    private int amountOfPools;
+    private int maxEliteFightersPerPool;
+    private int maxSchoolMatesPerPool;
     
     public SortingAlgorithm(CsvFileMetaData metaData)
     {
@@ -23,11 +25,29 @@ public class SortingAlgorithm
         totalFightersAmount = metaData.getAmountOfFightersInCSV();
     }  
     
-    public void setAlgorithmParameters(int fightersProPool, int elitesPerPool, int schoolMates)
+    /*
+    * ALGORITHM INFORMATION GETTERS AND EXECUTION
+    */
+    
+    private boolean areParametersCorrect()
     {
-        this.fightersPerPool = fightersProPool;
-        this.eliteFightersPerPool= elitesPerPool;
-        this.schoolMatesPerPool = schoolMates;
+        if(this.amountOfPools > this.totalFightersAmount ||
+        this.maxEliteFightersPerPool > determineAmountOfFightersPerPool() || 
+        this.maxSchoolMatesPerPool > determineAmountOfFightersPerPool())
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }  
+    
+    public void setAlgorithmParameters(int amountOfPools, int elitesPerPool, int schoolMates)
+    {
+        this.amountOfPools = amountOfPools;
+        this.maxEliteFightersPerPool= elitesPerPool;
+        this.maxSchoolMatesPerPool = schoolMates;
     }
     
     public int getTotalFightersAmount()
@@ -39,75 +59,120 @@ public class SortingAlgorithm
     {
         if(areParametersCorrect() == true)
         {
-            int amountOfPools = determineAmountOfPools();
-            ArrayList<Pool> poolsToBeFilled = createRequiredPools(amountOfPools); 
-            fillPools(poolsToBeFilled);
+            this.emptyPools = createRequiredPools(); 
+            fillPools();
+            loopThroughFilledPools();
         }
         else
         {
+            determineAmountOfFightersPerPool();
             JOptionPane.showMessageDialog(null, "Your parameters are incorrect. "
-            + "Make sure you have no more fighters per pool than your total amount of fighters.");
+            + "Make sure you have no more pools than your total amount of fighters.");
         }
     }
     
-    //NOTE: The danger in this is that it might go on forever.
-    //TODO: Add pool and fighter size checks.
-    //TODO: Cover other cases, such as elites only.
-    private void fillPools(ArrayList<Pool> emptyPools)
+    private void fillPools()
     {
-        ArrayList<Pool> filledPools = new ArrayList<Pool>();
+        if(this.emptyPools.size() > 0 
+        && this.csvFileMetaData.getAllFightersInCsv().size() >= 1)
+        {           
+            Pool randomPool = drawRandomPool(emptyPools);
         
-        Fighter randomFighter = drawRandomFighter(this.csvFileMetaData.getAllFightersInCsv());
-        Pool randomPool = drawRandomPool(emptyPools);
-
-        if(randomPool.isPoolFull() == false)
-        {
-            filledPools.add(randomPool);
-            emptyPools.remove(randomPool);
-            fillPools(emptyPools);
-        }
-        else
-        {
-           try
-           {
-               randomPool.addFighterToPool(randomFighter);
-               fillPools(emptyPools);
-           }
-           catch(Exception e)
-           {
-               fillPools(emptyPools);        
-           }
-        }
-        loopThroughFilledPools(filledPools);
-    }
-    
-    //TEMP: FOR DEBUGGING ONLY
-    private void loopThroughFilledPools(ArrayList<Pool> filledPools)
-    {
-        for(Pool currentPool : filledPools)
-        {
-            System.out.println("new pool");
-            for(Fighter fighterInThisPool : currentPool.fightersInThisPool)
+            if(randomPool.isPoolFull() == false)
             {
-                System.out.println(fighterInThisPool.getFighterName());
+                System.out.println(this.csvFileMetaData.getAllFightersInCsv().size() + " fighters left to do");
+                
+                Fighter randomFighter = drawRandomFighter(this.csvFileMetaData.getAllFightersInCsv());
+                this.csvFileMetaData.getAllFightersInCsv().remove(randomFighter);
+                
+                if(randomPool.EliteLimitExceeded == true)
+                {
+                    System.out.println("added nonelite or default");
+                    Fighter randomNonEliteFighter = drawRandomNonEliteFighterOrDefault(this.csvFileMetaData.getAllFightersInCsv());
+                    randomPool.addFighterToPool(randomNonEliteFighter);
+                    
+                    this.csvFileMetaData.getAllFightersInCsv().remove(randomNonEliteFighter);
+                    fillPools();
+                }
+                else if (randomPool.SchoolmateLimitExceeded == true)
+                {
+                    System.out.println("added nonschoolmate or default");
+                    Fighter randomNonSchoolMateFighter = drawRandomNonSchoolMateFighterOrDefault(this.csvFileMetaData.getAllFightersInCsv(), randomPool);
+                    randomPool.addFighterToPool(randomNonSchoolMateFighter);
+                    
+                    this.csvFileMetaData.getAllFightersInCsv().remove(randomNonSchoolMateFighter);
+                    fillPools();
+                }
+                else
+                {
+                    System.out.println("added normal");
+                    randomPool.addFighterToPool(randomFighter);
+                    fillPools();
+                }
+            }
+            else
+            {
+               System.out.println("Pool no. " + randomPool.poolNumber + " has "
+               + randomPool.fightersInThisPool.size() + " fighters out of " + randomPool.getMaximumSize());
+               this.filledPools.add(randomPool);
+               //this.emptyPools.remove(randomPool);
+               fillPools();
             }
         }
     }
     
-    private int determineAmountOfPools()
+    /*
+    * POOL CREATION AND FILLING
+    */
+    
+    //TEMP: FOR DEBUGGING ONLY
+    private void loopThroughFilledPools()
     {
-        int returnValue = (int) Math.floor(totalFightersAmount / fightersPerPool) + 1;
-        System.out.println("We need " + returnValue + " pools.");
-        return returnValue;
+        System.out.println("Total amount of pools: " + this.filledPools.size());
+        
+        for(Pool currentPool : this.filledPools)
+        {
+            System.out.println("Looking at pool no. " + currentPool.poolNumber);
+            System.out.println("Pool no. " + currentPool.poolNumber + " has " + currentPool.getCurrentSize());
+            
+            for(Fighter fighterInThisPool : currentPool.fightersInThisPool)
+            {
+                System.out.println(fighterInThisPool.getFighterName()
+                + " is a member of pool " + currentPool.poolNumber);
+            }
+        }
+        
+        for(Pool currentPool : this.emptyPools)
+        {
+            System.out.println("Emptypools");
+            System.out.println("Looking at pool no. " + currentPool.poolNumber);
+            System.out.println("Pool no. " + currentPool.poolNumber + " has " + currentPool.getCurrentSize());
+            
+            for(Fighter fighterInThisPool : currentPool.fightersInThisPool)
+            {
+                System.out.println(fighterInThisPool.getFighterName()
+                + " is a member of pool " + currentPool.poolNumber);
+            }
+        }
     }
     
-    private ArrayList<Pool> createRequiredPools(int amount)
+    private int determineAmountOfFightersPerPool()
     {
+        int result = (int) Math.floor(this.totalFightersAmount / this.amountOfPools) + 1;
+        System.out.println(result + " fighters per pool");
+        return result;
+    }
+    
+    private ArrayList<Pool> createRequiredPools()
+    {
+        int amountOfFightersPerPool = determineAmountOfFightersPerPool();
+        System.out.println("We have " + this.amountOfPools + " pools, each having " + amountOfFightersPerPool + " fighters");
         ArrayList<Pool> returnList = new ArrayList<Pool>();
         
-        for(int i = 0; i < amount; i++)
+        for(int i = 0; i < this.amountOfPools; i++)
         {
-            Pool newPool = new Pool(i, this.fightersPerPool, 0,0);
+            //i++ so that the first pool is pool '1': Pool '0' would not be very politically correct.
+            Pool newPool = new Pool(i, amountOfFightersPerPool, this.maxEliteFightersPerPool, this.maxSchoolMatesPerPool);
             returnList.add(newPool);
         }
         return returnList;
@@ -123,6 +188,10 @@ public class SortingAlgorithm
         return randomPool;
     }
     
+    /*
+    * FIGHTER DRAWING: RANDOMNESS GIVES BOUND PROBLEMS
+    */
+    
     private Fighter drawRandomFighter(ArrayList<Fighter> fighterList)
     {
         Random r = new Random();
@@ -133,19 +202,76 @@ public class SortingAlgorithm
         return randomFighter;
     }
     
-    private boolean areParametersCorrect()
+    private Fighter drawRandomNonEliteFighterOrDefault(ArrayList<Fighter> fighterList)
     {
-        if(fightersPerPool > totalFightersAmount ||
-        eliteFightersPerPool > fightersPerPool || 
-        schoolMatesPerPool > fightersPerPool)
+        Random r = new Random();
+        int randomNumber = r.nextInt(fighterList.size());
+        
+        Fighter randomFighter = fighterList.get(randomNumber);
+        
+        //If the fighter is an elite AND there are still other non-elites left to choose from
+        if(randomFighter.isFighterElite() 
+        && listOfFightersContainsOnlyElites(fighterList) == false)
         {
-            return false;
+            return drawRandomNonEliteFighterOrDefault(fighterList);
         }
+        //If there are no non-elites left to pick, we simply insert the elite.
         else
         {
-            return true;
+            System.out.println("Drew random non elite or default fighter " + randomFighter.getFighterName());
+            return randomFighter;
         }
-    }   
+    }
     
+    private Fighter drawRandomNonSchoolMateFighterOrDefault(ArrayList<Fighter> fighterList, Pool poolToInsertTo)
+    {
+        Random r = new Random();
+        int randomNumber = r.nextInt(fighterList.size());
+        
+        Fighter randomFighter = fighterList.get(randomNumber);
+        
+        //If the fighter is someones mate AND there are still other non-mates left to choose from
+        if(randomFighter.isThisFighterSomeonesSchoolMate(poolToInsertTo)
+           && listOfFightersContainsOnlyMates(fighterList, poolToInsertTo))
+        {
+            return drawRandomNonSchoolMateFighterOrDefault(fighterList, poolToInsertTo);
+        }
+        //If there are no non-mates left to pick, we simply insert the mate.
+        else
+        {
+            System.out.println("Drew random non mate or default fighter " + randomFighter.getFighterName());
+            return randomFighter;
+        }
+    }
     
+    private boolean listOfFightersContainsOnlyElites(ArrayList<Fighter> fighterList)
+    {
+        int eliteCounter = 0;
+        for(Fighter f : fighterList)
+        {
+            if(f.isFighterElite())
+                eliteCounter++;
+        }
+        
+        if(eliteCounter >= fighterList.size())
+            return true;
+        else
+            return false;
+    }
+    
+    private boolean listOfFightersContainsOnlyMates(ArrayList<Fighter> fighterList, Pool thisFightersPool)
+    {
+       int mateCounter = 0;
+        for(Fighter f : fighterList)
+        {
+            if(f.isThisFighterSomeonesSchoolMate(thisFightersPool))
+                mateCounter++;
+        }
+        
+        if(mateCounter >= fighterList.size())
+            return true;
+        else
+            return false; 
+    }
+
 }

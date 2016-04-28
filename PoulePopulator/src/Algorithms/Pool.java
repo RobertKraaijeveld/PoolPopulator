@@ -13,13 +13,15 @@ import java.util.ArrayList;
  */
 public class Pool 
 {
-    int poolNumber;
-    int currentSize = 0;
-    final int maximumSize;
-    int amountOfEliteFightersInThisPool = 0;
-    int amountOfSchoolMatesInThisPool = 0;
-    int maxEliteFighters;
-    int maxSchoolMates;
+    public final int poolNumber;
+    public boolean EliteLimitExceeded = false;
+    public boolean SchoolmateLimitExceeded = false;
+    private int currentSize = 0;
+    private final int maximumSize;
+    private int amountOfEliteFightersInThisPool = 0;
+    private int amountOfSchoolMatesInThisPool = 0;
+    private final int maxEliteFighters;
+    private final int maxSchoolMates;
     ArrayList<Fighter> fightersInThisPool = new ArrayList<Fighter>();
 
     
@@ -47,6 +49,13 @@ public class Pool
         return this.amountOfSchoolMatesInThisPool;
     }
     
+    public int getMaxEliteFighters() {
+        return maxEliteFighters;
+    }
+
+    public int getMaxSchoolMates() {
+        return maxSchoolMates;
+    }
     
     public boolean isPoolFull()
     {
@@ -57,53 +66,78 @@ public class Pool
     }
    
     public void addFighterToPool(Fighter fighterToBeAdded)
-    throws exceededPoolEliteLimitException, 
-    exceededPoolSchoolMateLimitException
     {
+        //WHAT TO DO WITH THE FIFGHTER THAT WANTS TO GET ADDED?
+        //might not be a problem
         if(this.amountOfEliteFightersInThisPool == this.maxEliteFighters)
         {
-            throw new exceededPoolEliteLimitException();
+            this.EliteLimitExceeded = true;
         }
-        else if(this.amountOfSchoolMatesInThisPool == this.maxSchoolMates)
+        else if (this.amountOfSchoolMatesInThisPool == this.maxSchoolMates)
         {
-            throw new exceededPoolSchoolMateLimitException();
+            this.SchoolmateLimitExceeded = true;
         }
         else
         {
             this.fightersInThisPool.add(fighterToBeAdded);
+            calculateTotalAmountOfSchoolMates(); 
             this.currentSize++;
-            this.amountOfSchoolMatesInThisPool = calculateTotalAmountOfSchoolMates();    
-            
+
             if(fighterToBeAdded.isFighterElite() == true)
                 this.amountOfEliteFightersInThisPool++;
         }
     }
     
-    private int calculateTotalAmountOfSchoolMates()
+    //TODO: Clean this up, especially the if
+    private void calculateTotalAmountOfSchoolMates()
     {
         ArrayList<Fighter> fightersToCrossReference = this.fightersInThisPool;
-        int schoolMatesCounter = 0;
         
         for(Fighter f : this.fightersInThisPool)
         {
             for(Fighter f2 : fightersToCrossReference)
             {
-                /*
-                We also check wether the two names are equal: If they are, the 2 fighters
-                Are the same person and the schoolMatesCounter shouldnt be incremented; 
-                a fighter cannot be his/her own schoolmate.
-                */
-                
-                if(f.getSchoolName().equals(f2.getSchoolName()) 
-                && f.getFighterName().equals(f2.getFighterName()) == false)
+                if (areGivenFightersNotSchoolmatesAlready(f, f2) == true
+                    && areGivenFightersAlreadySchoolmates(f, f2) == false)
                 {
-                    schoolMatesCounter++;
+                    System.out.println(f.getFighterName() + " is now a mate of " + f2.getFighterName()
+                    + " since both are from " + f.getSchoolName());
+                    f.getThisFightersSchoolMates().add(f2);
+                    f2.getThisFightersSchoolMates().add(f);
+                    this.amountOfSchoolMatesInThisPool++;
                 }
             }
         }
-        return schoolMatesCounter;
     }
     
-    public class exceededPoolEliteLimitException extends Exception {}
-    public class exceededPoolSchoolMateLimitException extends Exception {}
+    //These might need some cleaning up
+    private boolean areGivenFightersNotSchoolmatesAlready(Fighter fighter1, Fighter fighter2)
+    {
+        if (areGivenFightersAlreadySchoolmates(fighter1, fighter2) == true)
+           return false;
+        else if (fighter1.getSchoolName().equals(fighter2.getSchoolName()))
+            return true;
+        else
+            return false;
+    }
+    
+    public boolean areGivenFightersAlreadySchoolmates(Fighter fighter1, Fighter fighter2)
+    {
+        /*
+        We also check wether the two names are equal: If they are, the 2 fighters
+        Are the same person and the schoolMatesCounter shouldnt be incremented; 
+        a fighter cannot be his/her own schoolmate.
+        */
+                
+        if (fighter1.getThisFightersSchoolMates().contains(fighter2)
+        || fighter2.getThisFightersSchoolMates().contains(fighter1)
+        || fighter1.getFighterName().equals(fighter2.getFighterName()))
+        {
+           return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

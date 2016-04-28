@@ -37,13 +37,13 @@ public class AlgorithmParameterGUIframe extends javax.swing.JFrame
     private boolean areParametersFilledIn()
     {
         ArrayList<JTextField> alltextFields = new ArrayList<JTextField>()
-        {{ add(eliteSizeTextField); add(poolSizeTextField); add(schoolMatesTextField); }};
+        {{ add(eliteSizeTextField); add(amountOfPoolsText); add(schoolMatesTextField); }};
         
         for(JTextField j : alltextFields)
         {
-            if(j.getText() == null || j.getText().equals("") || !j.getText().matches("[0-10]+"))
+            if(j.getText() == null || j.getText().equals("") || !j.getText().matches("\\d+"))
             {
-                System.out.println("errawr");
+                System.out.println("areParametersFilledIn(): Parameters not or falsely filled in");
                 return false;
             }
             else
@@ -70,7 +70,7 @@ public class AlgorithmParameterGUIframe extends javax.swing.JFrame
         schoolAmountLabel = new javax.swing.JLabel();
         fightersFoundText = new javax.swing.JLabel();
         runButton = new javax.swing.JButton();
-        poolSizeTextField = new javax.swing.JTextField();
+        amountOfPoolsText = new javax.swing.JTextField();
         eliteSizeTextField = new javax.swing.JTextField();
         schoolMatesTextField = new javax.swing.JTextField();
 
@@ -83,7 +83,7 @@ public class AlgorithmParameterGUIframe extends javax.swing.JFrame
             }
         });
 
-        pouleSizeText.setText("Fighters per pool:");
+        pouleSizeText.setText("Amount of pools:");
 
         tier1FightersPoolLabel.setText("Max. tier 1 fighters per pool:");
 
@@ -115,7 +115,7 @@ public class AlgorithmParameterGUIframe extends javax.swing.JFrame
                             .addComponent(schoolAmountLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(poolSizeTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+                            .addComponent(amountOfPoolsText, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
                             .addComponent(eliteSizeTextField)
                             .addComponent(schoolMatesTextField))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -134,7 +134,7 @@ public class AlgorithmParameterGUIframe extends javax.swing.JFrame
                 .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(pouleSizeText)
-                    .addComponent(poolSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(amountOfPoolsText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tier1FightersPoolLabel)
@@ -160,10 +160,10 @@ public class AlgorithmParameterGUIframe extends javax.swing.JFrame
     private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runButtonActionPerformed
         if(areParametersFilledIn() == true)
         {
-            int poolSize = Integer.parseInt(poolSizeTextField.getText());
+            int amountOfPools = Integer.parseInt(amountOfPoolsText.getText());
             int eliteFighters = Integer.parseInt(eliteSizeTextField.getText());
             int schoolMates = Integer.parseInt(schoolMatesTextField.getText());
-            sortingAlgorithm.setAlgorithmParameters(poolSize, eliteFighters, schoolMates);
+            sortingAlgorithm.setAlgorithmParameters(amountOfPools, eliteFighters, schoolMates);
             sortingAlgorithm.runAlgorithm();
         }
         else
@@ -223,10 +223,10 @@ public class AlgorithmParameterGUIframe extends javax.swing.JFrame
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField amountOfPoolsText;
     private javax.swing.JToggleButton backToMenuButton;
     private javax.swing.JTextField eliteSizeTextField;
     private javax.swing.JLabel fightersFoundText;
-    private javax.swing.JTextField poolSizeTextField;
     private javax.swing.JLabel pouleSizeText;
     private javax.swing.JButton runButton;
     private javax.swing.JLabel schoolAmountLabel;

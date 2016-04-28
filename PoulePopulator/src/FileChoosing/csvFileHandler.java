@@ -38,7 +38,6 @@ public class csvFileHandler
     
     public void setSelectedFile(File f)
     {
-        System.out.println(f.getAbsolutePath());
         File file = f;
         selectedFile = file;
     }
@@ -131,19 +130,16 @@ public class csvFileHandler
                 {
                     nameHeaderPosition = positionCounter;
                     returnList.add(nameHeaderPosition);
-                    System.out.println("Name header position: " + nameHeaderPosition);
                 }   
                 else if(s.equals(skillHeaderColumn)) 
                 {
                     skillHeaderPosition = positionCounter;
                     returnList.add(skillHeaderPosition);
-                    System.out.println("Skill header position: " + skillHeaderPosition);
                 }
                 else if (s.equals(schoolHeaderColumn))
                 {
                     schoolHeaderPosition = positionCounter;
                     returnList.add(schoolHeaderPosition);
-                    System.out.println("School header position: " + schoolHeaderPosition);
                 }         
             }
         }
@@ -209,7 +205,6 @@ public class csvFileHandler
         public int getAmountOfFightersInCSV() 
         {
             String pathToFile = SelectedFile.getAbsolutePath();
-            System.out.println(pathToFile);
             BufferedReader reader = null;
             String currentLine = null;
             String delimiter = ";";
@@ -245,7 +240,6 @@ public class csvFileHandler
             BufferedReader reader = null;
             String currentLine = null;
             String delimiter = ";";
-            System.out.println("Called constructlist");
             int Counter = 0;
             
             try 
@@ -290,12 +284,7 @@ public class csvFileHandler
             skillString = skillString.replace("\"", "");
             int skill = Integer.parseInt(skillString);
             
-            Fighter newFighter = new Fighter(skill, school, name);
-            
-            System.out.println("Added fighter " + newFighter.getFighterName()
-            + " from " + newFighter.getSchoolName() 
-            + " skillLevel " + newFighter.getSkillLevel());
-            
+            Fighter newFighter = new Fighter(skill, school, name);         
             return newFighter;
         }
     }

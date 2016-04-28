@@ -5,6 +5,8 @@
  */
 package Algorithms;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Kraaijeveld
@@ -14,6 +16,8 @@ public class Fighter
     private String schoolName;
     private String fighterName;
     private int skillLevel;
+    private ArrayList<Fighter> thisFightersSchoolMates = new ArrayList<Fighter>();
+
     
     public Fighter(int skill, String school, String name)
     {
@@ -33,7 +37,28 @@ public class Fighter
     public String getSchoolName() {
         return schoolName;
     }
-  
+    
+    public ArrayList<Fighter> getThisFightersSchoolMates() {
+        return thisFightersSchoolMates;
+    }
+
+    public void setThisFightersSchoolMates(ArrayList<Fighter> thisFightersSchoolMates) {
+        this.thisFightersSchoolMates = thisFightersSchoolMates;
+    }
+
+    
+    public boolean isThisFighterSomeonesSchoolMate(Pool thisFightersPool)
+    {
+        for(Fighter f : thisFightersPool.fightersInThisPool)
+        {
+            if(thisFightersPool.areGivenFightersAlreadySchoolmates(this, f))
+                return true;
+            else
+                return false;
+        }
+        return false;
+    }
+    
     public boolean isFighterElite()
     {
         //Should we make this customizable?

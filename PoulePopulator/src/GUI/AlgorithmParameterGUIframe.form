@@ -38,7 +38,7 @@
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="poolSizeTextField" pref="26" max="32767" attributes="0"/>
+                          <Component id="amountOfPoolsText" pref="26" max="32767" attributes="0"/>
                           <Component id="eliteSizeTextField" max="32767" attributes="0"/>
                           <Component id="schoolMatesTextField" alignment="0" max="32767" attributes="0"/>
                       </Group>
@@ -64,7 +64,7 @@
               <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="pouleSizeText" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="poolSizeTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="amountOfPoolsText" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -94,7 +94,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="pouleSizeText">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Fighters per pool:"/>
+        <Property name="text" type="java.lang.String" value="Amount of pools:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="tier1FightersPoolLabel">
@@ -120,7 +120,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="runButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="poolSizeTextField">
+    <Component class="javax.swing.JTextField" name="amountOfPoolsText">
     </Component>
     <Component class="javax.swing.JTextField" name="eliteSizeTextField">
     </Component>
