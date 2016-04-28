@@ -67,8 +67,14 @@ public class Pool
    
     public void addFighterToPool(Fighter fighterToBeAdded)
     {
-        //WHAT TO DO WITH THE FIFGHTER THAT WANTS TO GET ADDED?
-        //might not be a problem
+        //This order is important: Else, fighters that clip the amounts-boundaries will not be added to any pool.
+        this.fightersInThisPool.add(fighterToBeAdded);
+        calculateTotalAmountOfSchoolMates(); 
+        this.currentSize++;
+
+        if(fighterToBeAdded.isFighterElite() == true)
+            this.amountOfEliteFightersInThisPool++;
+        
         if(this.amountOfEliteFightersInThisPool == this.maxEliteFighters)
         {
             this.EliteLimitExceeded = true;
@@ -76,15 +82,6 @@ public class Pool
         else if (this.amountOfSchoolMatesInThisPool == this.maxSchoolMates)
         {
             this.SchoolmateLimitExceeded = true;
-        }
-        else
-        {
-            this.fightersInThisPool.add(fighterToBeAdded);
-            calculateTotalAmountOfSchoolMates(); 
-            this.currentSize++;
-
-            if(fighterToBeAdded.isFighterElite() == true)
-                this.amountOfEliteFightersInThisPool++;
         }
     }
     
@@ -100,8 +97,6 @@ public class Pool
                 if (areGivenFightersNotSchoolmatesAlready(f, f2) == true
                     && areGivenFightersAlreadySchoolmates(f, f2) == false)
                 {
-                    System.out.println(f.getFighterName() + " is now a mate of " + f2.getFighterName()
-                    + " since both are from " + f.getSchoolName());
                     f.getThisFightersSchoolMates().add(f2);
                     f2.getThisFightersSchoolMates().add(f);
                     this.amountOfSchoolMatesInThisPool++;
