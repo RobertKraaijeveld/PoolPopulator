@@ -6,6 +6,7 @@
 package Algorithms;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  *
@@ -85,6 +86,33 @@ public class Pool
         }
     }
     
+    public boolean areGivenFightersAlreadySchoolmates(Fighter fighter1, Fighter fighter2)
+    {
+        /*
+        We also check wether the two names are equal: If they are, the 2 fighters
+        Are the same person and the schoolMatesCounter shouldnt be incremented; 
+        a fighter cannot be his/her own schoolmate.
+        */
+                
+        if (fighter1.getThisFightersSchoolMates().contains(fighter2)
+        || fighter2.getThisFightersSchoolMates().contains(fighter1)
+        || fighter1.getFighterName().equals(fighter2.getFighterName()))
+        {
+           return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+     
+    public Fighter drawRandomFighterFromThisPool()
+    {
+        Random r = new Random();
+        int randomNumber = r.nextInt(fightersInThisPool.size());
+        return this.fightersInThisPool.get(randomNumber);
+    }
+    
     //TODO: Clean this up, especially the if
     private void calculateTotalAmountOfSchoolMates()
     {
@@ -116,23 +144,5 @@ public class Pool
             return false;
     }
     
-    public boolean areGivenFightersAlreadySchoolmates(Fighter fighter1, Fighter fighter2)
-    {
-        /*
-        We also check wether the two names are equal: If they are, the 2 fighters
-        Are the same person and the schoolMatesCounter shouldnt be incremented; 
-        a fighter cannot be his/her own schoolmate.
-        */
-                
-        if (fighter1.getThisFightersSchoolMates().contains(fighter2)
-        || fighter2.getThisFightersSchoolMates().contains(fighter1)
-        || fighter1.getFighterName().equals(fighter2.getFighterName()))
-        {
-           return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+   
 }
